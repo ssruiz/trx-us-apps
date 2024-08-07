@@ -1,3 +1,5 @@
 {
-  "welcome": "Welcome to the {{target}} extension!"
+  "addressError": "Address must be 35 chars or less",
+  "cityError": "City must be 35 chars or less",
+  "lengthError": "Must be 35 chars or less"
 }

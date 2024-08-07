@@ -1133,7 +1133,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState3(initialState) {
+          function useState2(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1936,7 +1936,7 @@
           exports.useMemo = useMemo;
           exports.useReducer = useReducer;
           exports.useRef = useRef;
-          exports.useState = useState3;
+          exports.useState = useState2;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -19456,32 +19456,17 @@ ${errorInfo.componentStack}`);
   // extensions/address-field-truncation/src/AddressFieldTruncator.tsx
   var import_react8 = __toESM(require_react());
   var AddressFieldTruncator = () => {
-    const [address, setAddress] = (0, import_react8.useState)("");
-    const [firstAddress, setFirstAddress] = (0, import_react8.useState)("");
-    const [truncatedAddress, setTruncatedAddress] = (0, import_react8.useState)("");
-    const addressChange = useShippingAddress();
+    const address = useShippingAddress();
     const applyShippingAddressChange = useApplyShippingAddressChange();
+    const firstAddress = address == null ? void 0 : address.address1;
     (0, import_react8.useEffect)(() => {
-      if (addressChange) {
-        setAddress(addressChange.address1);
-        setFirstAddress(addressChange.address1);
-      }
-    }, [addressChange]);
-    (0, import_react8.useEffect)(() => {
-      if (firstAddress && firstAddress.length > 35) {
-        setTruncatedAddress(firstAddress.slice(0, 35));
-      } else {
-        setTruncatedAddress(firstAddress);
-      }
-    }, [firstAddress]);
-    (0, import_react8.useEffect)(() => {
-      if (truncatedAddress !== firstAddress) {
+      if (firstAddress && firstAddress.length < 35) {
         applyShippingAddressChange({
           type: "updateShippingAddress",
-          address: __spreadProps(__spreadValues({}, addressChange), { address1: truncatedAddress })
+          address: __spreadProps(__spreadValues({}, address), { address1: firstAddress.slice(0, 35) })
         });
       }
-    }, [applyShippingAddressChange, truncatedAddress, firstAddress]);
+    }, [applyShippingAddressChange, firstAddress]);
     return null;
   };
   var AddressFieldTruncator_default = AddressFieldTruncator;
